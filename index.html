@@ -61,21 +61,39 @@
         // $("#test-column").on("click", function () {
         //   console.log(this);
         // });
-        function generateInputRow() {
+        function generateInputRow(index) {
+          var storageName = "input" + index;
+          var inputText = localStorage.getItem(storageName);
+          console.log(inputText);
           $("#test-column").append(
             $(`<div class="row">
-                <form class="test-form">
-                    <input type="text" class="test-input" />
+                <form class="test-form" data-id="${index}">
+                    <input type="text" class="test-input" value=${inputText}>
                     <button class="btn btn-primary test-button">
                         Add to local storage
                     </button>
                 </form>
                 </div>`)
           );
+
+          // Not working yet.
+          //   var formDivEl = $("<div class='row'>");
+          //   var formEl = $("<form class='text-form'>");
+          //   formEl.attr("data-id", index);
+          //   var inputEl = $("<input type='text' class='text-input'>");
+          //   inputEl.val(inputText);
+          //   var buttonEl = $("<button class='btn btn-primary test-button'>");
+          //   buttonEl.text("Add to local storage");
+
+          //   formEl.append(inputEl);
+          //   formEl.append(buttonEl);
+
+          //   formDivEl.append(formEl);
+          //   $("#test-column").append(formDivEl);
         }
 
         for (var i = 0; i < 6; i++) {
-          generateInputRow();
+          generateInputRow(i);
         }
 
         // $(".test-button").on("click", function () {
@@ -85,10 +103,13 @@
         // $("#test-column").on("click", ".test-button", function(){
         //     console.log($(this));
         // })
-        $(".test-form").on("submit", function(event){
-            event.preventDefault();
-            console.log($(this).find("input").val());
-        })
+        $(".test-form").on("submit", function (event) {
+          event.preventDefault();
+          console.log($(this).find("input").val());
+          console.log($(this).attr("data-id"));
+          var storageName = "input" + $(this).attr("data-id");
+          localStorage.setItem(storageName, $(this).find("input").val());
+        });
       });
     </script>
   </body>
